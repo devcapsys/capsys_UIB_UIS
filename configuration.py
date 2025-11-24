@@ -2,9 +2,6 @@ import os, serial, atexit
 from typing import Optional, Any
 from modules.capsys_mysql_command.capsys_mysql_command import (GenericDatabaseManager, DatabaseConfig) # Custom
 from modules.capsys_wrapper_tm_t20iii.capsys_wrapper_tm_t20III import PrinterDC  # Custom
-# from modules.capsys_daq_manager.capsys_daq_manager import DAQManager  # Custom
-# from modules.capsys_mcp23017.capsys_mcp23017 import MCP23017  # Custom
-# from modules.capsys_serial_instrument_manager.ka3005p import alimentation_ka3005p  # Custom
 
 # Initialize global variables
 CURRENTH_PATH = os.path.dirname(__file__)
