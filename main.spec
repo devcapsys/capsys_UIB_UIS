@@ -72,8 +72,6 @@ a = Analysis(
     hooksconfig={},
     runtime_hooks=[],
     excludes=[
-        'modules.capsys_daq_manager',
-        'modules.capsys_mcp23017', 
         'modules.capsys_alim_ka3005p',
     ],
     noarchive=False,
