@@ -26,7 +26,7 @@ def run_step(log, config: configuration.AppConfig, update_percentage=lambda x: N
         return_msg["infos"].append("Le port série n'est pas ouvert.")
         return 1, return_msg
     
-    mac_pattern = re.compile(r'^([0-9A-Fa-f]{2}:){5}([0-9A-Fa-f]{2})$')
+    mac_pattern = re.compile(r'^([0-9A-Fa-f]{2}.){5}([0-9A-Fa-f]{2})$')
     
     while True:
         mac_address = configuration.request_user_input(
