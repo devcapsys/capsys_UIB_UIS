@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import sys, os, subprocess
+import sys, os, subprocess, socket
 if __name__ == "__main__":
     BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
     if BASE_DIR not in sys.path:
@@ -27,27 +27,33 @@ def run_step(log, config: configuration.AppConfig, update_percentage=lambda x: N
     dut_ip = "192.168.1.10"
     log(f"Vérification de la connectivité avec {dut_ip}...", "blue")
     
-    try:
-        # Exécuter la commande ping (4 paquets sous Windows)
-        result = subprocess.run(
-            ["ping", "-n", "4", dut_ip],
-            capture_output=True,
-            text=True,
-            timeout=10
-        )
-        
-        if result.returncode == 0:
-            pass
-        else:
-            return_msg["infos"].append(f"Échec de la connectivité avec {dut_ip}")
-            return 1, return_msg
+    max_retries = 3
+    for attempt in range(1, max_retries + 1):
+        try:
+            log(f"Tentative {attempt}/{max_retries}...", "blue")
+            # Tenter une connexion socket pour vérifier la connectivité
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(10)
+            result = os.system(f"ping -n 2 {dut_ip} > nul")
             
-    except subprocess.TimeoutExpired:
-        return_msg["infos"].append(f"Timeout lors du test de connectivité avec {dut_ip}")
-        return 1, return_msg
-    except Exception as e:
-        return_msg["infos"].append(f"Erreur lors du test de connectivité: {str(e)}")
-        return 1, return_msg
+            sock.close()
+            
+            if result == 0:
+                log(f"Connectivité avec {dut_ip} réussie", "green")
+                break
+            else:
+                if attempt < max_retries:
+                    log(f"Tentative {attempt} échouée, nouvelle tentative...", "yellow")
+                else:
+                    return_msg["infos"].append(f"Échec de la connectivité avec {dut_ip} après {max_retries} tentatives")
+                    return 1, return_msg
+                
+        except Exception as e:
+            if attempt < max_retries:
+                log(f"Erreur lors de la tentative {attempt}: {str(e)}, nouvelle tentative...", "yellow")
+            else:
+                return_msg["infos"].append(f"Erreur lors du test de connectivité après {max_retries} tentatives: {str(e)}")
+                return 1, return_msg
 
     return_msg["infos"].append("Étape OK")
     return 0, return_msg
