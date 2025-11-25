@@ -52,12 +52,16 @@ def run_step(log, config: configuration.AppConfig, update_percentage=lambda x: N
             update_percentage(percentage)
             if not os.path.exists(binary["path"]):
                 return 1, f"File not found: {binary['path']}"
+            
+            cmd = [
+                programmer_cli,
+                "-c", f"port={port}",
+                "-w", binary["path"]
+            ]
+            log(f"Commande subprocess: {' '.join(cmd)}", "blue")
+            
             result = subprocess.run(
-                [
-                    programmer_cli,
-                    "-c", f"port={port}",
-                    "-w", binary["path"]
-                ],
+                cmd,
                 check=False,
                 # stdout=subprocess.DEVNULL,
                 # stderr=subprocess.DEVNULL,
