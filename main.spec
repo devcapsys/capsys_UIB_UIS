@@ -5,11 +5,12 @@ from PyInstaller.utils.hooks import collect_all
 # Collect data for required packages
 mysql_datas, mysql_binaries, mysql_hiddenimports = collect_all('mysql.connector')
 reportlab_datas, reportlab_binaries, reportlab_hiddenimports = collect_all('reportlab')
+openpyxl_datas, openpyxl_binaries, openpyxl_hiddenimports = collect_all('openpyxl')
 
 a = Analysis(
     ['main.py'],
     pathex=[],
-    binaries=[] + mysql_binaries + reportlab_binaries,
+    binaries=[] + mysql_binaries + reportlab_binaries + openpyxl_binaries,
     datas=[
         ('logo-big.png', '.'),
         ('steps', 'steps'),
@@ -20,7 +21,7 @@ a = Analysis(
         ('modules/capsys_pdf_report', 'modules/capsys_pdf_report'),
         ('modules/capsys_serial_instrument_manager', 'modules/capsys_serial_instrument_manager'),
         ('modules/capsys_wrapper_tm_t20iii', 'modules/capsys_wrapper_tm_t20iii')
-    ] + mysql_datas + reportlab_datas,
+    ] + mysql_datas + reportlab_datas + openpyxl_datas,
     hiddenimports=[
         # PyQt6 modules
         'PyQt6.QtCore',
@@ -36,6 +37,9 @@ a = Analysis(
         'reportlab.lib.pagesizes',
         'reportlab.lib.units',
         'reportlab.lib.colors',
+        
+        # Excel file handling
+        'openpyxl',
         
         # Custom modules
         'modules.capsys_daq_manager',
@@ -58,10 +62,10 @@ a = Analysis(
         'steps.s02.programmation',
         'steps.s03.test',
         'steps.s04.ethernet',
-        'steps.s05.adresse_mac'
+        'steps.s05.adresse_mac',
         'steps.zz.fin_du_test',
         'unittest.mock',
-    ] + mysql_hiddenimports + reportlab_hiddenimports,
+    ] + mysql_hiddenimports + reportlab_hiddenimports + openpyxl_hiddenimports,
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
