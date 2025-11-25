@@ -138,6 +138,7 @@ class AppConfig:
         self.device_under_test_id: Optional[int] = None
         self.configItems = ConfigItems()
         self.printer: Optional[PrinterDC] = None
+        self.mac_manager: Optional[MACManager] = None
         self.ser: Optional[serial.Serial] = None
         atexit.register(self.cleanup) # Register cleanup function to be called on exit
 
