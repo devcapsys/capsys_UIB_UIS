@@ -24,10 +24,15 @@ def run_step(log, config: configuration.AppConfig, update_percentage=lambda x: N
     
     time.sleep(1)  # Attendre une seconde avant d'ouvrir le port série
 
-    # Ouverture du port série COM11
+    # Ouverture du port série
+    if configuration.HASH_GIT == "DEBUG":
+        log(f"DEBUG mode: Using COM11 for serial communication.", "yellow")
+        port = "COM11"
+    else:
+        port = config.configItems.dut.port
     try:
         config.ser = serial.Serial(
-            port='COM11',
+            port=port,
             baudrate=115200,
             bytesize=serial.EIGHTBITS,
             parity=serial.PARITY_NONE,

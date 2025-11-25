@@ -26,8 +26,15 @@ def run_step(log, config: configuration.AppConfig, update_percentage=lambda x: N
         log("Mode DEBUG détecté, la programmation est désactivée.", "yellow")
         return 0, return_msg
     else:
-        path_btl =  r"T:\\SW\\00\\036\\A\\SW00036_A00r_Bootloader_UIB_UIS.hex"
-        path_soft = r"T:\\SW\\00\\083\\A\\SW00083_A01r_UIB_APP.hex"
+        if configuration.HASH_GIT == "DEBUG":
+            log(f"DEBUG mode: Using test paths for binaries.", "yellow")
+            path_btl = r"C:\CAPSYS banc de test\capsys_UIB_UIS\test_files\Bootloader_test.srec"
+            path_soft = r"C:\CAPSYS banc de test\capsys_UIB_UIS\test_files\Application_test.srec"
+            port = "COM11"
+        else:
+            path_btl =  config.configItems.ble.path
+            path_soft = config.configItems.microcontroller.path
+            port = config.configItems.dut.port
         binaries = [
             {"path": path_btl, "log_key": "Bootloader"},
             {"path": path_soft, "log_key": "Application"},
@@ -47,7 +54,7 @@ def run_step(log, config: configuration.AppConfig, update_percentage=lambda x: N
             result = subprocess.run(
                 [
                     programmer_cli,
-                    "-c", "port=com11",
+                    "-c", f"port={port}",
                     "-w", binary["path"]
                 ],
                 check=False,

@@ -58,8 +58,9 @@ def request_user_input(config, title: str, message: str, font_size: int = 14) ->
 class ConfigItems:
     """Container for all configuration items used in the test sequence."""
     key_map = {
-        "MULTIMETRE": "multimeter", # Example
-        # Add other keys and their corresponding ConfigItem attributes as needed
+        "BLE": "ble",
+        "µC": "microcontroller",
+        "PORT_COM_DUT": "dut",
     }
 
     def init_config_items(self, configJson):
@@ -74,7 +75,8 @@ class ConfigItems:
                 attr_name,
                 ConfigItems.ConfigItem(                
                     key=json_key,
-                    # Add other parameters as needed
+                    path=item.get("path", ""),
+                    port=item.get("port", ""),
                 )
             )
 
@@ -83,16 +85,19 @@ class ConfigItems:
         def __init__(
             self,
             key = "",
-            # Add other parameters as needed
+            path = "",
+            port = "",
         ):
             """Initialize a ConfigItem with optional parameters for test configuration."""
             self.key = key
-            # Add other parameters as needed
+            self.path = path
+            self.port = port
     
     def __init__(self):
         """Initialize all ConfigItem attributes for different test parameters."""
-        self.multimeter = self.ConfigItem() # Example
-        # Add other ConfigItems as needed
+        self.ble = self.ConfigItem()
+        self.microcontroller = self.ConfigItem()
+        self.dut = self.ConfigItem()
 
 class Arg:
     name = NAME_GUI
