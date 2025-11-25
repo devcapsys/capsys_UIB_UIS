@@ -14,6 +14,7 @@ a = Analysis(
     datas=[
         ('logo-big.png', '.'),
         ('steps', 'steps'),
+        ('modules/__init__.py', 'modules'),
         ('modules/capsys_daq_manager', 'modules/capsys_daq_manager'),
         ('modules/capsys_mac_manager', 'modules/capsys_mac_manager'),
         ('modules/capsys_mcp23017', 'modules/capsys_mcp23017'),
