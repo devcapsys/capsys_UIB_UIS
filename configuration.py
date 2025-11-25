@@ -58,6 +58,7 @@ def request_user_input(config, title: str, message: str, font_size: int = 14) ->
 class ConfigItems:
     """Container for all configuration items used in the test sequence."""
     key_map = {
+        "STM32CubeProgrammer": "stm32_cube_programmer",
         "BLE": "ble",
         "µC": "microcontroller",
         "PORT_COM_DUT": "dut",
@@ -77,6 +78,7 @@ class ConfigItems:
                     key=json_key,
                     path=item.get("path", ""),
                     port=item.get("port", ""),
+                    name=item.get("name", "")
                 )
             )
 
@@ -87,14 +89,17 @@ class ConfigItems:
             key = "",
             path = "",
             port = "",
+            name = ""
         ):
             """Initialize a ConfigItem with optional parameters for test configuration."""
             self.key = key
             self.path = path
             self.port = port
+            self.name = name
     
     def __init__(self):
         """Initialize all ConfigItem attributes for different test parameters."""
+        self.stm32_cube_programmer = self.ConfigItem()
         self.ble = self.ConfigItem()
         self.microcontroller = self.ConfigItem()
         self.dut = self.ConfigItem()

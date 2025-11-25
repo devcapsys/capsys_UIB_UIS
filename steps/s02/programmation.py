@@ -40,7 +40,8 @@ def run_step(log, config: configuration.AppConfig, update_percentage=lambda x: N
             {"path": path_soft, "log_key": "Application"},
         ]
         # Paths STM32CubeProgrammer
-        programmer_dir = getattr(config, 'stm32_programmer_dir', r"C:\\Program Files\\STMicroelectronics\\STM32Cube\\STM32CubeProgrammer\\bin")
+        path_stm32 = config.configItems.stm32_cube_programmer.path
+        programmer_dir = getattr(config, 'stm32_programmer_dir', path_stm32)
         programmer_cli = os.path.join(programmer_dir, "STM32_Programmer_CLI.exe")
         if not os.path.exists(programmer_cli):
             return 1, f"STM32CubeProgrammer not found at {programmer_cli}."
