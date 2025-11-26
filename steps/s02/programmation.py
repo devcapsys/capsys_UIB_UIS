@@ -11,35 +11,6 @@ from modules.capsys_mysql_command.capsys_mysql_command import (GenericDatabaseMa
 def get_info():
     return "Cette étape vient programmer le DUT."
 
-# def compute_file_crc32(path):
-#     """Compute CRC32 of a binary file."""
-#     with open(path, "rb") as f:
-#         data = f.read()
-#     return binascii.crc32(data) & 0xFFFFFFFF
-
-
-# def read_mcu_crc32(programmer_cli, port, address, size):
-#     """Read CRC32 from MCU memory using STM32_Programmer_CLI."""
-#     cmd = [
-#         programmer_cli,
-#         "-c", f"port={port}",
-#         "-crc32", hex(address), hex(size)
-#     ]
-#     print(f"Executing command: {' '.join(cmd)}")
-#     result = subprocess.run(cmd, capture_output=True, text=True)
-
-#     if result.returncode != 0:
-#         return None
-
-#     for line in result.stdout.splitlines():
-#         if "CRC32" in line.upper():
-#             try:
-#                 return int(line.split(":")[1].strip(), 16)
-#             except:
-#                 return None
-
-#     return None
-
 def run_step(log, config: configuration.AppConfig, update_percentage=lambda x: None):
     step_name = os.path.splitext(os.path.basename(__file__))[0]
     return_msg = {"step_name": step_name, "infos": []}
@@ -79,7 +50,7 @@ def run_step(log, config: configuration.AppConfig, update_percentage=lambda x: N
             config,
             "Programmation",
             "Est-ce que la programmation a déjà été effectuée ?\n" \
-            "- Si OUI, écrivez oui puis appuyer sur entrée\n" \
+            "- Si OUI, écrivez oui puis appuyer sur OK\n" \
             "- Si NON, appuyer sur OK"
         )
         if msg is None:
@@ -89,44 +60,6 @@ def run_step(log, config: configuration.AppConfig, update_percentage=lambda x: N
             log("Programmation déjà effectuée, étape sautée.", "yellow")
             return_msg["infos"].append("Programmation déjà effectuée, étape sautée.")
             return 0, return_msg
-
-        # # -----------------------------------------------------------------------
-        # #     CRC CHECK BEFORE PROGRAMMING APPLICATION
-        # # -----------------------------------------------------------------------
-
-        # # Application Flash address (to adapt if needed)
-        # APP_ADDRESS = 0x08004000     
-        # app_size = os.path.getsize(path_soft)
-
-        # log("Calcul du CRC local de l'application…", "blue")
-        # local_crc = compute_file_crc32(path_soft)
-        # log(f"CRC local = 0x{local_crc:08X}", "blue")
-
-        # log("Lecture du CRC dans le MCU…", "blue")
-        # mcu_crc = read_mcu_crc32(programmer_cli, port, APP_ADDRESS, app_size)
-
-        # if mcu_crc is None:
-        #     log("Impossible de lire le CRC dans le MCU → Programmation nécessaire.", "yellow")
-        # else:
-        #     log(f"CRC MCU = 0x{mcu_crc:08X}", "blue")
-
-        #     if mcu_crc == local_crc:
-        #         log("CRC identique → pas de programmation de l'application.", "green")
-        #         return_msg["infos"].append("CRC identique → application non programmée")
-        #         # We still ask user to switch off programming mode
-        #         prog_end = configuration.request_user_input(
-        #             config,
-        #             "Fin de programmation du DUT",
-        #             "Placer le switch de programmation vers le bas et rallumer le banc."
-        #         )
-        #         return 0, return_msg
-
-        #     else:
-        #         log("CRC différent → programmation nécessaire.", "yellow")
-
-        # # -----------------------------------------------------------------------
-        # #     PROGRAMMATION (Bootloader + Application)
-        # # -----------------------------------------------------------------------
 
         total_binaries = len(binaries)
         for idx, binary in enumerate(binaries):
