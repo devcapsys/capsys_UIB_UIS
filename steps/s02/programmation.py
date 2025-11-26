@@ -157,7 +157,9 @@ def run_step(log, config: configuration.AppConfig, update_percentage=lambda x: N
                 }
             )
             if result.returncode != 0:
-                return 1, f"Error programming file: {binary['path']}"
+                return_msg["infos"].append(f"Code de retour : {result.returncode}")
+                return_msg["infos"].append(f"Pensez à vérifier l'état du port COM et le câblage.")
+                return 1, return_msg
 
         return_msg["infos"].append("Étape OK")
         return 0, return_msg
