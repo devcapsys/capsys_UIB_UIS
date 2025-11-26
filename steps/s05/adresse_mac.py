@@ -54,14 +54,14 @@ def run_step(log, config: configuration.AppConfig, update_percentage=lambda x: N
         return 1, return_msg
     
     config.ser.write(f"TEST MAC={mac_address['mac_address']}\r".encode('utf-8'))
-    time.sleep(0.5)  # Attendre une demi-seconde pour que le DUT traite la commande
+    time.sleep(1)  # Attendre une demi-seconde pour que le DUT traite la commande
     response = config.ser.readline().decode('utf-8').strip()
     if "OK" not in response:
         return_msg["infos"].append(f"Erreur lors de la configuration de l'adresse MAC sur le DUT.")
         return 1, return_msg
 
     config.ser.write(f"TEST MAC\r".encode('utf-8'))
-    time.sleep(0.5)  # Attendre une demi-seconde pour que le DUT traite la commande
+    time.sleep(1)  # Attendre une demi-seconde pour que le DUT traite la commande
     response = config.ser.readline().decode('utf-8').strip()
     if mac_address['mac_address'] not in response:
         return_msg["infos"].append(f"L'adresse MAC lue du DUT ({response}) ne correspond pas à l'adresse configurée ({mac_address['mac_address']}).")
