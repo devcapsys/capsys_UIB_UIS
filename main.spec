@@ -35,31 +35,8 @@ a = Analysis(
         # Excel file handling
         'openpyxl',
         
-        # Custom modules
-        'modules.capsys_daq_manager',
-        'modules.capsys_mac_manager',
-        'modules.capsys_mac_manager.capsys_mac_manager',
-        'modules.capsys_mcp23017',
-        'modules.capsys_mcp23017.modules.capsys_bitbangi2c',
-        'modules.capsys_mcp23017.modules.capsys_bitbangi2c.modules.capsys_daq_manager',
-        'modules.capsys_mcp23017.modules.capsys_daq_manager',
-        'modules.capsys_mysql_command.capsys_mysql_command',
-        'modules.capsys_pdf_report.capsys_pdf_report',
-        'modules.capsys_pdf_report.modules.capsys_mysql_command.capsys_mysql_command',
-        'modules.capsys_serial_instrument_manager',
-        'modules.capsys_wrapper_tm_t20iii',
-        
         # Configuration module
         'configuration',
-        
-        # Step modules (dynamically loaded)
-        'steps.s01.initialisation',
-        'steps.s02.programmation',
-        'steps.s03.test',
-        'steps.s04.ethernet',
-        'steps.s05.adresse_mac',
-        'steps.zz.fin_du_test',
-        'unittest.mock',
     ] + mysql_hiddenimports + reportlab_hiddenimports + openpyxl_hiddenimports,
     hookspath=[],
     hooksconfig={},
