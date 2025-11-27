@@ -21,17 +21,6 @@ def run_step(log, config: configuration.AppConfig, update_percentage=lambda x: N
     # We always save the name of the step in the db
     step_name_id = config.db.create("step_name", {"device_under_test_id": config.device_under_test_id, "step_name": step_name})
     ###################################################################
-    
-    msg = configuration.request_user_input(
-    config,
-    "Teste du DUT",
-    "Placer le switch de programmation vers le bas et rallumer le banc."
-    )
-    if msg is None:
-        return_msg["infos"].append("L'utilisateur a annulé la saisie.")
-        return 1, return_msg
-    
-    time.sleep(3)  # Attendre une seconde avant d'ouvrir le port série
 
     # Retry mechanism for serial communication and testing
     max_retries = 3
@@ -39,6 +28,17 @@ def run_step(log, config: configuration.AppConfig, update_percentage=lambda x: N
     test_success = False
     
     while not test_success and retry_count < max_retries:
+        msg = configuration.request_user_input(
+        config,
+        "Teste du DUT",
+        "Placer le switch de programmation vers le bas et rallumer le banc."
+        )
+        if msg is None:
+            return_msg["infos"].append("L'utilisateur a annulé la saisie.")
+            return 1, return_msg
+    
+        time.sleep(3)  # Attendre une seconde avant d'ouvrir le port série
+        
         if retry_count > 0:
             log(f"Tentative {retry_count + 1}/{max_retries}", "yellow")
         
