@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import sys, os, re, time, serial, datetime
-from unittest import result
 if __name__ == "__main__":
     BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
     if BASE_DIR not in sys.path:
@@ -29,6 +28,26 @@ def run_step(log, config: configuration.AppConfig, update_percentage=lambda x: N
         return 1, return_msg
     
     mac_pattern = re.compile(r'^([0-9A-Fa-f]{2}:){5}([0-9A-Fa-f]{2})$')
+    
+    # Vérification si une adresse MAC existe déjà sur le DUT
+    config.ser.write(f"TEST MAC\r".encode('utf-8'))
+    time.sleep(1)
+    response = config.ser.readline().decode('utf-8').strip()
+    
+    # Si une adresse MAC valide existe déjà, on l'utilise
+    existing_mac = None
+    for part in response.split():
+        if mac_pattern.match(part):
+            existing_mac = part
+            break
+    
+    if existing_mac:
+        log(f"Adresse MAC existante détectée sur le DUT : {existing_mac}", "blue")
+        config.save_value(step_name_id, "mac_address", existing_mac, valid=1)
+        return_msg["infos"].append("Étape OK - Adresse MAC existante utilisée")
+        return 0, return_msg
+    
+    log("Aucune adresse MAC détectée sur le DUT, assignation d'une nouvelle adresse.", "blue")
     
     date = datetime.datetime.now().strftime("%Y-%m-%d")
     mac_address = ""
