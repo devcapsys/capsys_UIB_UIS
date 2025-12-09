@@ -8,7 +8,6 @@ if __name__ == "__main__":
 import configuration  # Custom
 from modules.capsys_mysql_command.capsys_mysql_command import (GenericDatabaseManager, DatabaseConfig) # Custom
 from modules.capsys_mac_manager.capsys_mac_manager import MACManager # Custom
-from modules.capsys_brady_manager.capsys_brady_manager import BradyBP12Printer  # Custom
 
 def get_info():
     return "Cette étape teste les seuils de fonctionnement du radar."
@@ -122,14 +121,6 @@ def run_step(log, config: configuration.AppConfig, update_percentage=lambda x: N
 
     config.save_value(step_name_id, "mac_address_line", mac_address['row'], valid=1)
     config.save_value(step_name_id, "mac_address", mac_address['mac_address'], valid=1)
-    
-    # Print label with Brady printer
-    # printer_brady = BradyBP12Printer()
-    # date = datetime.datetime.now().strftime("%Y-%m-%d")
-    # messages = ["CAPSYS", date, f"ID: {config.device_under_test_id}", config.arg.article + config.arg.indice, configuration.HASH_GIT]
-    # printer_brady.print_label(messages, qrcode=config.device_under_test_id, nb_copies=1)
-    # jsonMessages = json.dumps(messages, ensure_ascii=False)
-    # config.save_value(step_name_id, "label_printed", jsonMessages, valid=1)
 
     return_msg["infos"].append("Étape OK")
     return 0, return_msg
