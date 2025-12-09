@@ -8,16 +8,17 @@ mysql_datas, mysql_binaries, mysql_hiddenimports = collect_all('mysql.connector'
 reportlab_datas, reportlab_binaries, reportlab_hiddenimports = collect_all('reportlab')
 serial_datas, serial_binaries, serial_hiddenimports = collect_all('serial')
 openpyxl_datas, openpyxl_binaries, openpyxl_hiddenimports = collect_all('openpyxl')
+et_xmlfile_datas, et_xmlfile_binaries, et_xmlfile_hiddenimports = collect_all('et_xmlfile')
 
 a = Analysis(
     ['main.py'],
     pathex=[],
-    binaries=[] + nidaqmx_binaries + mysql_binaries + reportlab_binaries + serial_binaries + openpyxl_binaries,
+    binaries=[] + nidaqmx_binaries + mysql_binaries + reportlab_binaries + serial_binaries + openpyxl_binaries + et_xmlfile_binaries,
     datas=[
         ('logo-big.png', '.'),
         ('steps', 'steps'),
         ('modules', 'modules'),
-    ] + nidaqmx_datas + mysql_datas + reportlab_datas + serial_datas + openpyxl_datas,
+    ] + nidaqmx_datas + mysql_datas + reportlab_datas + serial_datas + openpyxl_datas + et_xmlfile_datas,
     hiddenimports=[
         # PyQt6 modules
         'PyQt6.QtCore',
@@ -65,7 +66,7 @@ a = Analysis(
         'multiprocessing',
         'multiprocessing.spawn',
         'multiprocessing.forkserver',
-    ] + nidaqmx_hiddenimports + mysql_hiddenimports + reportlab_hiddenimports + serial_hiddenimports,
+    ] + nidaqmx_hiddenimports + mysql_hiddenimports + reportlab_hiddenimports + serial_hiddenimports + openpyxl_hiddenimports + et_xmlfile_hiddenimports,
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
