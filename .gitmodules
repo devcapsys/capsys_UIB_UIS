@@ -1,24 +1,24 @@
-[submodule "modules/capsys_mysql_command"]
-	path = modules/capsys_mysql_command
-	url = https://github.com/ThomasGerardin/capsys_mysql_command
-[submodule "modules/capsys_pdf_report"]
-	path = modules/capsys_pdf_report
-	url = https://github.com/ThomasGerardin/capsys_pdf_report
 [submodule "modules/capsys_daq_manager"]
 	path = modules/capsys_daq_manager
 	url = https://github.com/ThomasGerardin/capsys_daq_manager
-[submodule "modules/capsys_mcp23017"]
-	path = modules/capsys_mcp23017
-	url = https://github.com/ThomasGerardin/capsys_mcp23017
-[submodule "modules/capsys_serial_instrument_manager"]
-	path = modules/capsys_serial_instrument_manager
-	url = https://github.com/devcapsys/capsys_serial_instrument_manager
-[submodule "modules/capsys_wrapper_tm_t20iii"]
-	path = modules/capsys_wrapper_tm_t20iii
-	url = https://github.com/devcapsys/capsys_wrapper_tm_t20iii
 [submodule "modules/capsys_mac_manager"]
 	path = modules/capsys_mac_manager
 	url = https://github.com/devcapsys/capsys_mac_manager
 [submodule "modules/capsys_brady_manager"]
 	path = modules/capsys_brady_manager
 	url = https://github.com/devcapsys/capsys_brady_manager
+[submodule "modules/capsys_mysql_command"]
+	path = modules/capsys_mysql_command
+	url = https://github.com/ThomasGerardin/capsys_mysql_command
+[submodule "modules/capsys_mcp23017"]
+	path = modules/capsys_mcp23017
+	url = https://github.com/ThomasGerardin/capsys_mcp23017
+[submodule "modules/capsys_pdf_report"]
+	path = modules/capsys_pdf_report
+	url = https://github.com/ThomasGerardin/capsys_pdf_report
+[submodule "capsys_serial_instrument_manager"]
+	path = capsys_serial_instrument_manager
+	url = https://github.com/devcapsys/capsys_serial_instrument_manager
+[submodule "modules/capsys_wrapper_tm_t20iii"]
+	path = modules/capsys_wrapper_tm_t20iii
+	url = https://github.com/devcapsys/capsys_wrapper_tm_t20iii
