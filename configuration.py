@@ -9,9 +9,9 @@ from modules.capsys_serial_instrument_manager.capsys_serial_instrument_manager i
 
 # Initialize global variables
 CURRENTH_PATH = os.path.dirname(__file__)
-NAME_GUI = "UIB 3 en 1, 8E/8S, RS485, Ehernet, 24VDC"
-CONFIG_JSON_NAME = "config_SOUU-001"
-PRODUCT_LIST_ID_DEFAULT = "5"
+NAME_GUI = "UIB 3 en 1 8E8S RS485 Ehernet 24VDC"
+CONFIG_JSON_NAME = "config_IV90115"
+PRODUCT_LIST_ID_DEFAULT = "6"
 VERSION = "V1.0.0"
 HASH_GIT = "DEBUG" # Will be replaced by the Git hash when compiled with command .\build.bat
 AUTHOR = "Thomas GERARDIN"
