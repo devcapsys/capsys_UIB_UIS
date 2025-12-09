@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import sys, os, re, time, datetime
+import sys, os, re, time, datetime, json
 if __name__ == "__main__":
     BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
     if BASE_DIR not in sys.path:
@@ -33,6 +33,7 @@ def run_step(log, config: configuration.AppConfig, update_percentage=lambda x: N
 
     mac_pattern = re.compile(r'^([0-9A-Fa-f]{2}:){5}([0-9A-Fa-f]{2})$')
     
+    config.serDut.send_command("TEST MAC\r", timeout=1.0) # Initial flush
     # Vérification si une adresse MAC existe déjà sur le DUT
     response = config.serDut.send_command("TEST MAC\r", timeout=1.0)
     
@@ -51,20 +52,26 @@ def run_step(log, config: configuration.AppConfig, update_percentage=lambda x: N
     
     log("Aucune adresse MAC détectée sur le DUT, assignation d'une nouvelle adresse.", "blue")
     
-    date = datetime.datetime.now().strftime("%Y-%m-%d")
+    path = config.configItems.mac_adress_file.path
     mac_address = ""
     manager = None
+    product= ""
+    date = ""
+    bl = ""
     if configuration.HASH_GIT == "DEBUG":
-        path = "C:\\Users\\tgerardin\\CAPSYS\\INDUSTRIE - Documents\\PROD\\Adresses MAC\\adresses MAC - Copie.xlsx"
+        path = "C:\\Users\\tgerardin\\CAPSYS\\INDUSTRIE - Documents\\PROD\\Adresses MAC\\adresses MAC.xlsx"
+        log(f"DEBUG MODE: Using MAC address file at {path} without assigning new MAC in the file", "yellow")
     else:
-        path = config.configItems.mac_adress_file.path
+        product = config.arg.article
+        date = datetime.datetime.now().strftime("%Y-%m-%d")
+        bl = config.arg.commande
     try:
         manager = MACManager(path, "attributions MAC address")
         manager.open_file()
         mac_address = manager.assign_mac(
-            product=config.arg.article,
+            product=product,
             delivery_date=date,
-            bl=config.arg.commande
+            bl=bl
         )
         print(f"Assignment successful!")
     except Exception as e:
@@ -123,7 +130,8 @@ def run_step(log, config: configuration.AppConfig, update_percentage=lambda x: N
     date = datetime.datetime.now().strftime("%Y-%m-%d")
     messages = ["CAPSYS", date, f"ID: {config.device_under_test_id}", config.arg.article + config.arg.indice, configuration.HASH_GIT]
     config.printer_brady.print_label(messages, qrcode=config.device_under_test_id, nb_copies=1)
-    config.save_value(step_name_id, "label_printed", messages, valid=1)
+    jsonMessages = json.dumps(messages, ensure_ascii=False)
+    config.save_value(step_name_id, "label_printed", jsonMessages, valid=1)
 
     return_msg["infos"].append("Étape OK")
     return 0, return_msg
