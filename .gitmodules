@@ -16,9 +16,9 @@
 [submodule "modules/capsys_pdf_report"]
 	path = modules/capsys_pdf_report
 	url = https://github.com/ThomasGerardin/capsys_pdf_report
-[submodule "capsys_serial_instrument_manager"]
-	path = capsys_serial_instrument_manager
-	url = https://github.com/devcapsys/capsys_serial_instrument_manager
 [submodule "modules/capsys_wrapper_tm_t20iii"]
 	path = modules/capsys_wrapper_tm_t20iii
 	url = https://github.com/devcapsys/capsys_wrapper_tm_t20iii
+[submodule "modules/capsys_serial_instrument_manager"]
+	path = modules/capsys_serial_instrument_manager
+	url = https://github.com/devcapsys/capsys_serial_instrument_manager
