@@ -56,11 +56,11 @@ def run_step(log, config: configuration.AppConfig, update_percentage=lambda x: N
     bl = ""
     if configuration.HASH_GIT == "DEBUG":
         path = "C:\\Users\\tgerardin\\CAPSYS\\INDUSTRIE - Documents\\PROD\\Adresses MAC\\adresses MAC.xlsx"
-        log(f"DEBUG MODE: Using MAC address file at {path} without assigning new MAC in the file", "yellow")
     else:
         product = config.arg.article
         date = datetime.datetime.now().strftime("%Y-%m-%d")
         bl = config.arg.commande
+    log(f"Utilisation du fichier d'adresses MAC : {path}", "blue")
     try:
         manager = MACManager(path, "attributions MAC address")
         manager.open_file()
