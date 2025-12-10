@@ -262,6 +262,13 @@ def run_step(log, config: configuration.AppConfig, update_percentage=lambda x: N
     if status != 0:
         return status, msg
     log(msg, "blue")
+
+    try:
+        config.brady_printer = BradyBP12Printer()
+        log("Imprimante Brady initialisée.", "cyan")
+    except Exception as e:
+        return_msg["infos"].append(f"Erreur lors de l'initialisation de l'imprimante Brady : {e}")
+        return 1, return_msg
     
     if config.first_test == True:
         if configuration.HASH_GIT == "DEBUG":
@@ -278,13 +285,6 @@ def run_step(log, config: configuration.AppConfig, update_percentage=lambda x: N
                 return_msg["infos"].append("L'utilisateur a annulé la saisie.")
                 return 1, return_msg
             config.first_test = False
-
-    try:
-        config.brady_printer = BradyBP12Printer()
-        log("Imprimante Brady initialisée.", "cyan")
-    except Exception as e:
-        return_msg["infos"].append(f"Erreur lors de l'initialisation de l'imprimante Brady : {e}")
-        return 1, return_msg
 
     return_msg["infos"].append(f"Initialisation OK")
     return 0, return_msg
