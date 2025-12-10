@@ -9,6 +9,7 @@ import configuration  # Custom
 from modules.capsys_mysql_command.capsys_mysql_command import (GenericDatabaseManager, DatabaseConfig, Operator) # Custom
 from modules.capsys_daq_manager.capsys_daq_manager import DAQManager  # Custom
 from modules.capsys_mcp23017.capsys_mcp23017 import BitBangI2C, MCP23017Manager  # Custom
+from modules.capsys_brady_manager.capsys_brady_manager import BradyBP12Printer  # Custom
 from configuration import VERSION, get_project_path
 
 def get_info():
@@ -277,6 +278,13 @@ def run_step(log, config: configuration.AppConfig, update_percentage=lambda x: N
                 return_msg["infos"].append("L'utilisateur a annulé la saisie.")
                 return 1, return_msg
             config.first_test = False
+
+    try:
+        config.brady_printer = BradyBP12Printer()
+        log("Imprimante Brady initialisée.", "cyan")
+    except Exception as e:
+        return_msg["infos"].append(f"Erreur lors de l'initialisation de l'imprimante Brady : {e}")
+        return 1, return_msg
 
     return_msg["infos"].append(f"Initialisation OK")
     return 0, return_msg

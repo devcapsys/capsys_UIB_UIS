@@ -25,14 +25,15 @@ def run_step(log, config: configuration.AppConfig, update_percentage=lambda x: N
     if config.serDut is None or not config.serDut.is_connected():
         return_msg["infos"].append("Le port série n'est pas ouvert.")
         return 1, return_msg
-
-    # Print label with Brady printer
-    # printer_brady = BradyBP12Printer()
-    # date = datetime.datetime.now().strftime("%Y-%m-%d")
-    # messages = ["CAPSYS", date, f"ID: {config.device_under_test_id}", config.arg.article + config.arg.indice, configuration.HASH_GIT]
-    # printer_brady.print_label(messages, qrcode=config.device_under_test_id, nb_copies=1)
-    # jsonMessages = json.dumps(messages, ensure_ascii=False)
-    # config.save_value(step_name_id, "label_printed", jsonMessages, valid=1)
+    if config.brady_printer is None:
+        return_msg["infos"].append("L'imprimante Brady n'est pas initialisée.")
+        return 1, return_msg
+    
+    date = datetime.datetime.now().strftime("%Y-%m-%d")
+    messages = ["CAPSYS", date, f"ID: {config.device_under_test_id}", config.arg.article + config.arg.indice, configuration.HASH_GIT]
+    config.brady_printer.print_label(messages, qrcode=config.device_under_test_id, nb_copies=1)
+    jsonMessages = json.dumps(messages, ensure_ascii=False)
+    config.save_value(step_name_id, "label_printed", jsonMessages, valid=1)
 
     return_msg["infos"].append("Étape OK")
     return 0, return_msg
